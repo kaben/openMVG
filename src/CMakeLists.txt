@@ -237,7 +237,7 @@ IF(EIGEN_FOUND)
 ENDIF(EIGEN_FOUND)
 
 # Configure Eigen to use only MPL2 licensed code
-ADD_DEFINITIONS(-DEIGEN_MPL2_ONLY)
+#ADD_DEFINITIONS(-DEIGEN_MPL2_ONLY)
 
 # ==============================================================================
 # Ceres
