@@ -65,18 +65,20 @@ int main(int argc, char **argv)
   std::string sImageDir,
     sfileDatabase = "",
     sOutputDir = "",
+    sFocal = "-1",
     sKmatrix;
 
   int i_User_camera_model = PINHOLE_CAMERA_RADIAL3;
 
   bool b_Group_camera_model = true;
 
+  bool b_Guess_focal = false;
   double focal_pixels = -1.0;
 
   cmd.add( make_option('i', sImageDir, "imageDirectory") );
   cmd.add( make_option('d', sfileDatabase, "sensorWidthDatabase") );
   cmd.add( make_option('o', sOutputDir, "outputDirectory") );
-  cmd.add( make_option('f', focal_pixels, "focal") );
+  cmd.add( make_option('f', sFocal, "focal") );
   cmd.add( make_option('k', sKmatrix, "intrinsics") );
   cmd.add( make_option('c', i_User_camera_model, "camera_model") );
   cmd.add( make_option('g', b_Group_camera_model, "group_camera_model") );
@@ -109,7 +111,7 @@ int main(int argc, char **argv)
             << "--imageDirectory " << sImageDir << std::endl
             << "--sensorWidthDatabase " << sfileDatabase << std::endl
             << "--outputDirectory " << sOutputDir << std::endl
-            << "--focal " << focal_pixels << std::endl
+            << "--focal " << sFocal << std::endl
             << "--intrinsics " << sKmatrix << std::endl
             << "--camera_model " << i_User_camera_model << std::endl
             << "--group_camera_model " << b_Group_camera_model << std::endl;
@@ -118,6 +120,23 @@ int main(int argc, char **argv)
   double width = -1, height = -1, focal = -1, ppx = -1,  ppy = -1;
 
   const EINTRINSIC e_User_camera_model = EINTRINSIC(i_User_camera_model);
+
+  if ( !sFocal.empty() )
+  {
+    if ( sFocal == "GUESS" )
+    {
+      b_Guess_focal = true;
+    }
+    else
+    {
+      std::stringstream str(sFocal);
+      if ( (str >> focal).fail() || !str.eof() )
+      {
+        std::cerr << "\nInvalid focal length" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
 
   if ( !stlplus::folder_exists( sImageDir ) )
   {
@@ -213,9 +232,9 @@ int main(int argc, char **argv)
           focal = -1.0;
       }
       else // User provided focal length value
-        if (focal_pixels != -1 )
+        if ( focal_pixels != -1 )
           focal = focal_pixels;
-        else
+        else if ( b_Guess_focal )
         {
           /*
           150724-1356@kaben: fallback to fictional focal length (in pixels) if
@@ -228,8 +247,7 @@ int main(int argc, char **argv)
           */
           focal = std::max ( width, height ) * 1.2;
           std::cerr << stlplus::basename_part(sImageFilename) <<
-          ": Lacking any other info, guessing focal length of " << focal <<
-          " pixels." << std::endl;
+          ": guessing focal length of " << focal << " pixels." << std::endl;
         }
     }
     else // If image contains meta data
