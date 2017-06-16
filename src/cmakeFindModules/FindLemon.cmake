@@ -3,9 +3,9 @@
 #----------------------------------------------------------
 
 FIND_PATH(LEMON_DIR list_graph.h
-    HINTS "${LEMON_ROOT}" "$ENV{LEMON_ROOT}" "${LEMON_INCLUDE_DIR_HINTS}"
+    HINTS "${LEMON_ROOT}" "$ENV{LEMON_ROOT}" "${LEMON_DIR_HINTS}"
     PATHS "$ENV{PROGRAMFILES}/lemon" "$ENV{PROGRAMW6432}/lemon"
-    PATH_SUFFIXES lemon
+    PATH_SUFFIXES lemon include/lemon include
     DOC "Root directory of LEMON includes")
 
 ##====================================================
@@ -41,7 +41,11 @@ IF(EXISTS "${LEMON_DIR}" AND NOT "${LEMON_DIR}" STREQUAL "")
   
   SET(LEMON_INCLUDE_DIR ${LEMON_DIR})
 
-  FIND_LIBRARY(LEMON_LIBRARY NAMES Lemon lemon emon)
+  FIND_LIBRARY(LEMON_LIBRARY NAMES Lemon lemon emon
+      HINTS "${LEMON_ROOT}" "$ENV{LEMON_ROOT}" "${LEMON_DIR_HINTS}"
+      PATHS "$ENV{PROGRAMFILES}/lemon" "$ENV{PROGRAMW6432}/lemon"
+      PATH_SUFFIXES lemon lib/lemon lib
+      DOC "Root directory of LEMON library")
 
   # locate Lemon libraries
   IF(DEFINED LEMON_LIBRARY)
@@ -51,9 +55,15 @@ IF(EXISTS "${LEMON_DIR}" AND NOT "${LEMON_DIR}" STREQUAL "")
   MESSAGE(STATUS "Lemon ${LEMON_VERSION} found (include: ${LEMON_DIR})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Lemon. "
-          "Please use cmake variable -DLEMON_INCLUDE_DIR_HINTS:STRING=\"PATH\" "
-          "or LEMON_INCLUDE_DIR_HINTS env. variable to a valid Lemon path. "
+          "Please use cmake variable -DLEMON_DIR_HINTS:STRING=\"PATH\" "
+          "or LEMON_DIR_HINTS env. variable to a valid Lemon path. "
           "Or install last Lemon version.")
   package_report_not_found(LEMON "Lemon cannot be found")
 ENDIF()
 ##====================================================
+
+message("LEMON_DIR_HINTS: \"${LEMON_DIR_HINTS}\"")
+message("LEMON_DIR: \"${LEMON_DIR}\"")
+message("LEMON_ROOT: \"${LEMON_ROOT}\"")
+message("LEMON_LIBRARY: \"${LEMON_LIBRARY}\"")
+message("LEMON_LIBRARIES: \"${LEMON_LIBRARIES}\"")

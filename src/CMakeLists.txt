@@ -342,10 +342,10 @@ endif()
 # Lemon
 # ==============================================================================
 # - internal by default (Lemon),
-# - external if LEMON_INCLUDE_DIR_HINTS and a valid Lemon setup is found
+# - external if LEMON_DIR_HINTS and a valid Lemon setup is found
 # ==============================================================================
-if (NOT DEFINED LEMON_INCLUDE_DIR_HINTS)
-  set(LEMON_INCLUDE_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/lemon)
+if (NOT DEFINED LEMON_DIR_HINTS)
+  set(LEMON_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/lemon)
   set(OpenMVG_USE_INTERNAL_LEMON ON)
 endif()
 find_package(Lemon QUIET)
