@@ -117,29 +117,27 @@ Mat FivePointsPolynomialConstraints( const Mat &E_basis );
 // But this is not the basis used in the rest of the paper, neither in
 // the code they provide.  I (pau) have spend 4 hours debugging and
 // reverse engineering their code to find the problem. :(
-enum
-{
-  coef_xxx,
-  coef_xxy,
-  coef_xyy,
-  coef_yyy,
-  coef_xxz,
-  coef_xyz,
-  coef_yyz,
-  coef_xzz,
-  coef_yzz,
-  coef_zzz,
-  coef_xx,
-  coef_xy,
-  coef_yy,
-  coef_xz,
-  coef_yz,
-  coef_zz,
-  coef_x,
-  coef_y,
-  coef_z,
-  coef_1
-};
+//
+#define  coef_xxx  0
+#define  coef_xxy  1
+#define  coef_xyy  2
+#define  coef_yyy  3
+#define  coef_xxz  4
+#define  coef_xyz  5
+#define  coef_yyz  6
+#define  coef_xzz  7
+#define  coef_yzz  8
+#define  coef_zzz  9
+#define  coef_xx   10
+#define  coef_xy   11
+#define  coef_yy   12
+#define  coef_xz   13
+#define  coef_yz   14
+#define  coef_zz   15
+#define  coef_x    16
+#define  coef_y    17
+#define  coef_z    18
+#define  coef_1    19
 
 } // namespace openMVG
 
