@@ -3,9 +3,9 @@
 #----------------------------------------------------------
 
 FIND_PATH(FLANN_DIR flann.hpp
-    HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_INCLUDE_DIR_HINTS}"
+    HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_DIR_HINTS}"
     PATHS "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
-    PATH_SUFFIXES flann
+    PATH_SUFFIXES flann include/flann include
     DOC "Root directory of FLANN includes")
 
 ##====================================================
@@ -33,19 +33,38 @@ IF(EXISTS "${FLANN_DIR}" AND NOT "${FLANN_DIR}" STREQUAL "")
         ENDIF (NOT EXISTS ${FLANN_VERSION_FILE})
         SET(FLANN_INCLUDE_DIR ${FLANN_DIR})
 
-        FIND_LIBRARY(FLANN_LIBRARY NAMES flann_cpp)
+        FIND_LIBRARY(FLANN_C_LIBRARY NAMES flann
+            HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
+            PATH_SUFFIXES flann lib/flann lib
+            DOC "Root directory of FLANN C library")
+
+        FIND_LIBRARY(FLANN_CPP_LIBRARY NAMES flann_cpp
+            HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
+            PATH_SUFFIXES flann lib/flann lib
+            DOC "Root directory of FLANN C++ library")
 
         # locate Flann libraries
-        IF(DEFINED FLANN_LIBRARY)
-          SET(FLANN_LIBRARIES ${FLANN_LIBRARY})
+        IF(DEFINED FLANN_C_LIBRARY OR DEFINED FLANN_CPP_LIBRARY)
+          SET(FLANN_LIBRARY ${FLANN_CPP_LIBRARY})
+          SET(FLANN_LIBRARIES ${FLANN_CPP_LIBRARY} ${FLANN_C_LIBRARY})
         ENDIF()
 
         MESSAGE(STATUS "Flann ${FLANN_VERSION} found (include: ${FLANN_INCLUDE_DIRS})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Flann. "
-          "Please use cmake variable -DFLANN_INCLUDE_DIR_HINTS:STRING=\"PATH\" "
-          "or FLANN_INCLUDE_DIR_HINTS env. variable to a valid Flann path. "
+          "Please use cmake variable -DFLANN_DIR_HINTS:STRING=\"PATH\" "
+          "or FLANN_DIR_HINTS env. variable to a valid Flann path. "
           "Or install last Flann version.")
   package_report_not_found(FLANN "Flann cannot be found")
 ENDIF()
 ##====================================================
+
+message("FLANN_DIR_HINTS: \"${FLANN_DIR_HINTS}\"")
+message("FLANN_DIR: \"${FLANN_DIR}\"")
+message("FLANN_ROOT: \"${FLANN_ROOT}\"")
+message("FLANN_C_LIBRARY: \"${FLANN_C_LIBRARY}\"")
+message("FLANN_CPP_LIBRARY: \"${FLANN_CPP_LIBRARY}\"")
+message("FLANN_LIBRARY: \"${FLANN_LIBRARY}\"")
+message("FLANN_LIBRARIES: \"${FLANN_LIBRARIES}\"")
