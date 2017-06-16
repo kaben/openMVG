@@ -33,13 +33,13 @@ IF(EXISTS "${FLANN_DIR}" AND NOT "${FLANN_DIR}" STREQUAL "")
         ENDIF (NOT EXISTS ${FLANN_VERSION_FILE})
         SET(FLANN_INCLUDE_DIR ${FLANN_DIR})
 
-        FIND_LIBRARY(FLANN_C_LIBRARY NAMES flann
+        FIND_LIBRARY(FLANN_C_LIBRARY NAMES flann_s
             HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_DIR_HINTS}"
             PATHS "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
             PATH_SUFFIXES flann lib/flann lib
             DOC "Root directory of FLANN C library")
 
-        FIND_LIBRARY(FLANN_CPP_LIBRARY NAMES flann_cpp
+        FIND_LIBRARY(FLANN_CPP_LIBRARY NAMES flann_cpp_s
             HINTS "${FLANN_ROOT}" "$ENV{FLANN_ROOT}" "${FLANN_DIR_HINTS}"
             PATHS "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
             PATH_SUFFIXES flann lib/flann lib
@@ -60,11 +60,3 @@ ELSE()
   package_report_not_found(FLANN "Flann cannot be found")
 ENDIF()
 ##====================================================
-
-message("FLANN_DIR_HINTS: \"${FLANN_DIR_HINTS}\"")
-message("FLANN_DIR: \"${FLANN_DIR}\"")
-message("FLANN_ROOT: \"${FLANN_ROOT}\"")
-message("FLANN_C_LIBRARY: \"${FLANN_C_LIBRARY}\"")
-message("FLANN_CPP_LIBRARY: \"${FLANN_CPP_LIBRARY}\"")
-message("FLANN_LIBRARY: \"${FLANN_LIBRARY}\"")
-message("FLANN_LIBRARIES: \"${FLANN_LIBRARIES}\"")
