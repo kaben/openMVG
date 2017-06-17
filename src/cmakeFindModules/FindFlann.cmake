@@ -46,10 +46,17 @@ IF(EXISTS "${FLANN_DIR}" AND NOT "${FLANN_DIR}" STREQUAL "")
             DOC "Root directory of FLANN C++ library")
 
         # locate Flann libraries
-        IF(DEFINED FLANN_C_LIBRARY OR DEFINED FLANN_CPP_LIBRARY)
-          SET(FLANN_LIBRARY ${FLANN_CPP_LIBRARY})
-          SET(FLANN_LIBRARIES ${FLANN_CPP_LIBRARY} ${FLANN_C_LIBRARY})
+        IF(EXISTS ${FLANN_CPP_LIBRARY} AND NOT "${FLANN_CPP_LIBRARY}" STREQUAL "")
+          SET(FLANN_LIBRARIES ${FLANN_LIBRARIES} ${FLANN_CPP_LIBRARY})
+        ELSE()
+          MESSAGE(WARNING "The FLANN C++ library is missing. Continuing anyway; fingers crossed...")
         ENDIF()
+        IF(EXISTS ${FLANN_C_LIBRARY} AND NOT "${FLANN_C_LIBRARY}" STREQUAL "")
+          SET(FLANN_LIBRARIES ${FLANN_LIBRARIES} ${FLANN_C_LIBRARY})
+        ELSE()
+          MESSAGE(WARNING "The FLANN C library is missing. Continuing anyway; fingers crossed...")
+        ENDIF()
+
 
         MESSAGE(STATUS "Flann ${FLANN_VERSION} found (include: ${FLANN_INCLUDE_DIRS})")
 ELSE()
