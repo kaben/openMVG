@@ -3,9 +3,9 @@
 #----------------------------------------------------------
 
 FIND_PATH(CLP_DIR ClpConfig.h
-    HINTS "${CLP_ROOT}" "$ENV{CLP_ROOT}" "${CLP_INCLUDE_DIR_HINTS}"
+    HINTS "${CLP_ROOT}" "$ENV{CLP_ROOT}" "${CLP_DIR_HINTS}"
     PATHS "$ENV{PROGRAMFILES}/Clp" "$ENV{PROGRAMW6432}/Clp" "/usr" "/usr/local"
-    PATH_SUFFIXES Clp
+    PATH_SUFFIXES Clp coin include/coin include
     DOC "Root directory of CLP includes")
 
 ##====================================================
@@ -50,9 +50,21 @@ IF(EXISTS "${CLP_DIR}" AND NOT "${CLP_DIR}" STREQUAL "")
         ENDIF (NOT EXISTS ${CLP_VERSION_FILE})
         SET(CLP_INCLUDE_DIR ${CLP_DIR})
 
-        FIND_LIBRARY(CLP_LIBRARY NAMES Clp)
-        FIND_LIBRARY(CLPSOLVER_LIBRARY NAMES ClpSolver)
-        FIND_LIBRARY(OSICLP_LIBRARY NAMES OsiClp)
+        FIND_LIBRARY(CLP_LIBRARY NAMES Clp
+            HINTS "${CLP_ROOT}" "$ENV{CLP_ROOT}" "${CLP_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/Clp" "$ENV{PROGRAMW6432}/Clp"
+            PATH_SUFFIXES coin lib/coin lib
+            DOC "Root directory of Clp library")
+        FIND_LIBRARY(CLPSOLVER_LIBRARY NAMES ClpSolver
+            HINTS "${CLP_ROOT}" "$ENV{CLP_ROOT}" "${CLP_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/Clp" "$ENV{PROGRAMW6432}/Clp"
+            PATH_SUFFIXES coin lib/coin lib
+            DOC "Root directory of ClpSolver library")
+        FIND_LIBRARY(OSICLP_LIBRARY NAMES OsiClp
+            HINTS "${CLP_ROOT}" "$ENV{CLP_ROOT}" "${CLP_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/Clp" "$ENV{PROGRAMW6432}/Clp"
+            PATH_SUFFIXES coin lib/coin lib
+            DOC "Root directory of OsiClp library")
 
         # locate Clp libraries
         IF(DEFINED CLP_LIBRARY AND DEFINED CLPSOLVER_LIBRARY AND DEFINED OSICLP_LIBRARY)
@@ -62,8 +74,8 @@ IF(EXISTS "${CLP_DIR}" AND NOT "${CLP_DIR}" STREQUAL "")
         MESSAGE(STATUS "Clp ${CLP_VERSION} found (include: ${CLP_INCLUDE_DIRS})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Clp. "
-          "Please use cmake variable -DCLP_INCLUDE_DIR_HINTS:STRING=\"PATH\" "
-          "or CLP_INCLUDE_DIR_HINTS env. variable to a valid Clp path. "
+          "Please use cmake variable -DCLP_DIR_HINTS:STRING=\"PATH\" "
+          "or CLP_DIR_HINTS env. variable to a valid Clp path. "
           "Or install last Clp version.")
   package_report_not_found(CLP "Clp cannot be found")
 ENDIF()

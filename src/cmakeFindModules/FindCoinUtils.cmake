@@ -3,9 +3,9 @@
 #----------------------------------------------------------
 
 FIND_PATH(COINUTILS_DIR CoinUtilsConfig.h
-    HINTS "${COINUTILS_ROOT}" "$ENV{COINUTILS_ROOT}" "${COINUTILS_INCLUDE_DIR_HINTS}"
+    HINTS "${COINUTILS_ROOT}" "$ENV{COINUTILS_ROOT}" "${COINUTILS_DIR_HINTS}"
     PATHS "$ENV{PROGRAMFILES}/CoinUtils" "$ENV{PROGRAMW6432}/CoinUtils" "/usr" "/usr/local"
-    PATH_SUFFIXES CoinUtils
+    PATH_SUFFIXES CoinUtils coin include/coin include
     DOC "Root directory of COINUTILS includes")
 
 ##====================================================
@@ -50,7 +50,11 @@ IF(EXISTS "${COINUTILS_DIR}" AND NOT "${COINUTILS_DIR}" STREQUAL "")
         ENDIF (NOT EXISTS ${COINUTILS_VERSION_FILE})
         SET(COINUTILS_INCLUDE_DIR ${COINUTILS_DIR})
 
-        FIND_LIBRARY(COINUTILS_LIBRARY NAMES CoinUtils)
+        FIND_LIBRARY(COINUTILS_LIBRARY NAMES CoinUtils
+            HINTS "${COINUTILS_ROOT}" "$ENV{COINUTILS_ROOT}" "${COINUTILS_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/CoinUtils" "$ENV{PROGRAMW6432}/CoinUtils"
+            PATH_SUFFIXES coin lib/coin lib
+            DOC "Root directory of CoinUtils library")
 
         # locate CoinUtils libraries
         IF(DEFINED COINUTILS_LIBRARY)
@@ -60,8 +64,8 @@ IF(EXISTS "${COINUTILS_DIR}" AND NOT "${COINUTILS_DIR}" STREQUAL "")
         MESSAGE(STATUS "CoinUtils ${COINUTILS_VERSION} found (include: ${COINUTILS_INCLUDE_DIRS})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without CoinUtils. "
-          "Please use cmake variable -DCOINUTILS_INCLUDE_DIR_HINTS:STRING=\"PATH\" "
-          "or COINUTILS_INCLUDE_DIR_HINTS env. variable to a valid CoinUtils path. "
+          "Please use cmake variable -DCOINUTILS_DIR_HINTS:STRING=\"PATH\" "
+          "or COINUTILS_DIR_HINTS env. variable to a valid CoinUtils path. "
           "Or install last CoinUtils version.")
   package_report_not_found(COINUTILS "CoinUtils cannot be found")
 ENDIF()

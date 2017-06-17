@@ -3,9 +3,9 @@
 #----------------------------------------------------------
 
 FIND_PATH(OSI_DIR OsiConfig.h
-    HINTS "${OSI_ROOT}" "$ENV{OSI_ROOT}" "${OSI_INCLUDE_DIR_HINTS}"
+    HINTS "${OSI_ROOT}" "$ENV{OSI_ROOT}" "${OSI_DIR_HINTS}"
     PATHS "$ENV{PROGRAMFILES}/Osi" "$ENV{PROGRAMW6432}/Osi" "/usr" "/usr/local"
-    PATH_SUFFIXES Osi
+    PATH_SUFFIXES Osi coin include/coin include
     DOC "Root directory of OSI includes")
 
 ##====================================================
@@ -50,7 +50,11 @@ IF(EXISTS "${OSI_DIR}" AND NOT "${OSI_DIR}" STREQUAL "")
         ENDIF (NOT EXISTS ${OSI_VERSION_FILE})
         SET(OSI_INCLUDE_DIR ${OSI_DIR})
 
-        FIND_LIBRARY(OSI_LIBRARY NAMES Osi)
+        FIND_LIBRARY(OSI_LIBRARY NAMES Osi
+            HINTS "${OSI_ROOT}" "$ENV{OSI_ROOT}" "${OSI_DIR_HINTS}"
+            PATHS "$ENV{PROGRAMFILES}/Osi" "$ENV{PROGRAMW6432}/Osi"
+            PATH_SUFFIXES coin lib/coin lib
+            DOC "Root directory of Osi library")
 
         # locate Osi libraries
         IF(DEFINED OSI_LIBRARY)
@@ -60,8 +64,8 @@ IF(EXISTS "${OSI_DIR}" AND NOT "${OSI_DIR}" STREQUAL "")
         MESSAGE(STATUS "Osi ${OSI_VERSION} found (include: ${OSI_INCLUDE_DIRS})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Osi. "
-          "Please use cmake variable -DOSI_INCLUDE_DIR_HINTS:STRING=\"PATH\" "
-          "or OSI_INCLUDE_DIR_HINTS env. variable to a valid Osi path. "
+          "Please use cmake variable -DOSI_DIR_HINTS:STRING=\"PATH\" "
+          "or OSI_DIR_HINTS env. variable to a valid Osi path. "
           "Or install last Osi version.")
   package_report_not_found(OSI "Osi cannot be found")
 ENDIF()

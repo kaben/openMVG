@@ -281,10 +281,10 @@ endif()
 # CoinUtils
 # ==============================================================================
 # - internal by default (CoinUtils),
-# - external if COINUTILS_INCLUDE_DIR_HINTS and a valid CoinUtils setup is found
+# - external if COINUTILS_DIR_HINTS and a valid CoinUtils setup is found
 # ==============================================================================
-if (NOT DEFINED COINUTILS_INCLUDE_DIR_HINTS)
-  set(COINUTILS_INCLUDE_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/CoinUtils/src/)
+if (NOT DEFINED COINUTILS_DIR_HINTS)
+  set(COINUTILS_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/CoinUtils/src/)
   set(OpenMVG_USE_INTERNAL_COINUTILS ON)
 endif()
 find_package(CoinUtils QUIET)
@@ -297,10 +297,10 @@ endif()
 ## Clp
 ## ==============================================================================
 ## - internal by default (Clp),
-## - external if CLP_INCLUDE_DIR_HINTS and a valid Clp setup is found
+## - external if CLP_DIR_HINTS and a valid Clp setup is found
 ## ==============================================================================
-if (NOT DEFINED CLP_INCLUDE_DIR_HINTS)
-  set(CLP_INCLUDE_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/Clp/src/)
+if (NOT DEFINED CLP_DIR_HINTS)
+  set(CLP_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/Clp/src/)
   set(OpenMVG_USE_INTERNAL_CLP ON)
 endif()
 find_package(Clp QUIET)
@@ -315,10 +315,10 @@ endif()
 # Osi
 # ==============================================================================
 # - internal by default (Osi),
-# - external if OSI_INCLUDE_DIR_HINTS and a valid Osi setup is found
+# - external if OSI_DIR_HINTS and a valid Osi setup is found
 # ==============================================================================
-if (NOT DEFINED OSI_INCLUDE_DIR_HINTS)
-  set(OSI_INCLUDE_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/Osi/src/)
+if (NOT DEFINED OSI_DIR_HINTS)
+  set(OSI_DIR_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/osi_clp/Osi/src/)
   set(OpenMVG_USE_INTERNAL_OSI ON)
 endif()
 find_package(Osi QUIET)
