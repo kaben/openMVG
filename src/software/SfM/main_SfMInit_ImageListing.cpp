@@ -329,6 +329,22 @@ int main(int argc, char **argv)
       else // User provided focal length value
         if (focal_pixels != -1 )
           focal = focal_pixels;
+        else
+        {
+          /*
+          150724-1356@kaben: fallback to fictional focal length (in pixels) if
+          camera intrinsics are totally unknown.  This is based on similar
+          fallback in VisualSFM, for which Changchang Wu states:
+
+          "In case the EXIF does not contain those information, the focal
+          lengths are set to be 1.2 * max(width, height), which corresponds to
+          a medium viewing angle."
+          */
+          focal = std::max ( width, height ) * 1.2;
+          std::cerr << stlplus::basename_part(sImageFilename) <<
+          ": Lacking any other info, guessing focal length of " << focal <<
+          " pixels." << std::endl;
+        }
     }
     else // If image contains meta data
     {

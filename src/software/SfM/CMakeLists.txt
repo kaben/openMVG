@@ -276,6 +276,11 @@ TARGET_LINK_LIBRARIES(openMVG_main_openMVG2MVSTEXTURING
   stlplus
   )
 
+# - Export a SfM openMVG scene in obsolete openMVG format to MVE scene folder
+# -
+ADD_EXECUTABLE(openMVG_main_openMVG2MVE main_openMVG2MVE.cpp)
+TARGET_LINK_LIBRARIES(openMVG_main_openMVG2MVE ${OpenMVG_LIBRARIES})
+
 # - Export SfM openMVG camera scene as triangle meshes
 # -
 ADD_EXECUTABLE(openMVG_main_ExportCameraFrustums main_ExportCameraFrustums.cpp)
