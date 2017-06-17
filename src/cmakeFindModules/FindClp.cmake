@@ -71,7 +71,7 @@ IF(EXISTS "${CLP_DIR}" AND NOT "${CLP_DIR}" STREQUAL "")
           SET(CLP_LIBRARIES ${CLP_LIBRARY} ${CLPSOLVER_LIBRARY} ${OSICLP_LIBRARY})
         ENDIF()
 
-        MESSAGE(STATUS "Clp ${CLP_VERSION} found (include: ${CLP_INCLUDE_DIRS})")
+        MESSAGE(STATUS "Clp ${CLP_VERSION} found (include: ${CLP_INCLUDE_DIRS}) (libraries: ${CLP_LIBRARIES})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Clp. "
           "Please use cmake variable -DCLP_DIR_HINTS:STRING=\"PATH\" "

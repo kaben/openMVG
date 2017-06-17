@@ -61,7 +61,7 @@ IF(EXISTS "${OSI_DIR}" AND NOT "${OSI_DIR}" STREQUAL "")
           SET(OSI_LIBRARIES ${OSI_LIBRARY})
         ENDIF()
 
-        MESSAGE(STATUS "Osi ${OSI_VERSION} found (include: ${OSI_INCLUDE_DIRS})")
+        MESSAGE(STATUS "Osi ${OSI_VERSION} found (include: ${OSI_INCLUDE_DIRS}) (libraries: ${OSI_LIBRARIES})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without Osi. "
           "Please use cmake variable -DOSI_DIR_HINTS:STRING=\"PATH\" "

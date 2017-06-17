@@ -61,7 +61,7 @@ IF(EXISTS "${COINUTILS_DIR}" AND NOT "${COINUTILS_DIR}" STREQUAL "")
           SET(COINUTILS_LIBRARIES ${COINUTILS_LIBRARY})
         ENDIF()
 
-        MESSAGE(STATUS "CoinUtils ${COINUTILS_VERSION} found (include: ${COINUTILS_INCLUDE_DIRS})")
+        MESSAGE(STATUS "CoinUtils ${COINUTILS_VERSION} found (include: ${COINUTILS_INCLUDE_DIRS}) (libraries: ${COINUTILS_LIBRARIES})")
 ELSE()
   MESSAGE(FATAL_ERROR "You are attempting to build without CoinUtils. "
           "Please use cmake variable -DCOINUTILS_DIR_HINTS:STRING=\"PATH\" "
